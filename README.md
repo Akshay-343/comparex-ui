@@ -1,73 +1,70 @@
-# React + TypeScript + Vite
+# CompareX UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend interface for [CompareX](https://github.com/Akshay-343/comparex) — upload two Excel files, pick a reconciliation config, and download a color-highlighted diff report.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
 
-## React Compiler
+- **React 19** + **TypeScript**
+- **Vite** — dev server and build
+- **Tailwind CSS** + **shadcn/ui** — component library
+- **Radix UI** — accessible primitives
+- **Lucide React** — icons
+- **Geist** — font
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Requires the [CompareX engine](https://github.com/Akshay-343/comparex) running locally on `http://localhost:8000`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Features (Planned / In Progress)
+
+- Drag-and-drop file upload for left and right Excel datasets
+- Config selector (fetched live from `/api/configs`)
+- Progress feedback during reconciliation
+- Inline preview of diff results
+- One-click download of the highlighted Excel report
+- Run history with previous report downloads
+
+---
+
+## Project Structure
+
 ```
+src/
+  components/       # UI components (upload, config picker, results)
+  pages/            # Route-level views
+  lib/              # API client, utilities
+```
+
+---
+
+## API
+
+This UI talks to the CompareX FastAPI backend:
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /api/configs` | fetch available reconciliation configs |
+| `POST /api/reconcile` | upload files + run comparison |
+| `GET /api/download/{run_id}` | download result report |
+
+---
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | start dev server |
+| `npm run build` | production build |
+| `npm run lint` | run ESLint |
+| `npm run preview` | preview production build |
